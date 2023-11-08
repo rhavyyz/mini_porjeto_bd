@@ -94,7 +94,7 @@ UPDATE Client set phone_number = {phone_number} WHERE id = {cpf};
 
 SEARCH_BOOK_BY_TITLE = '''
 
-SELECT * FROM Book WHERE title LIKE "\%{title}\%";
+SELECT * FROM Book WHERE title LIKE "%{title}%";
 
 '''
 
@@ -106,7 +106,7 @@ SELECT * FROM Book WHERE author LIKE "%{author}%";
 
 SEARCH_CLIENT_BY_NAME = '''
 
-SELECT * FROM Client WHERE name LIKE "\%{name}\%";
+SELECT * FROM Client WHERE name LIKE "%{name}%";
 
 '''
 
