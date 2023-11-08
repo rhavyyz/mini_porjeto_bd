@@ -29,7 +29,7 @@ if need_set_up:
     connection.close()
 
 @app.get("/book/title/<title>")
-def get_book_by_author(title):
+def get_book_by_title(title):
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
@@ -97,20 +97,6 @@ def get_rent_by_id_book(id_book):
     connection.close()
     
     return { "rent" : query_response} , 200
-     
-@app.get("/rent/id_book/<id_book>")
-def get_rent_by_id_book(id_book):
-    connection = sqlite3.connect("./src/ismaylindo.db")
-    cursor = connection.cursor() 
-
-    cursor.execute(SEARCH_RENTS_BY_ID_BOOK.format(id_book=id_book)) 
-
-    query_response = cursor.fetchall()
-
-    cursor.close()
-    connection.close()
-    
-    return { "rent" : query_response} , 200
     
 @app.get("/rent/cpf/<cpf>")
 def get_rent_by_cpf(cpf):
@@ -162,7 +148,7 @@ def post_client():
     return "OK", 200
 
 @app.post("/rent/")
-def post_client():
+def post_rent():
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
@@ -178,7 +164,7 @@ def post_client():
     return "OK", 200
 
 @app.delete("/book/<id>")
-def delete_book(id):
+def delete_book_with_id_book(id):
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
@@ -192,7 +178,7 @@ def delete_book(id):
     return "OK", 200
 
 @app.delete("/client/<cpf>")
-def delete_book(cpf):
+def delete_book_with_cpf(cpf):
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
@@ -206,7 +192,7 @@ def delete_book(cpf):
     return "OK", 200
 
 @app.delete("/rent/<cpf>/<id_book>")
-def delete_book(cpf, id_book):
+def delete_book_with_rent(cpf, id_book):
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
@@ -220,7 +206,7 @@ def delete_book(cpf, id_book):
     return "OK", 200
 
 @app.put("/client/phone_number/<phone_number>")
-def delete_book(phone_number):
+def delete_book_with_phone_number(phone_number):
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
