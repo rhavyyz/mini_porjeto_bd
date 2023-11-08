@@ -1,0 +1,11 @@
+from dataclasses import dataclass
+
+
+@dataclass
+class Book:
+
+    id : int 
+
+    title : str
+    author : str
+    release_date : str
