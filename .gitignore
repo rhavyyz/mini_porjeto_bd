@@ -1,3 +1,5 @@
 env
 **/__pycache__/
 /src/ismaylindo.db
+trash.py
+.vscode

@@ -122,8 +122,15 @@ def post_book():
 
     data = request.json
 
-    cursor.execute(ADD_BOOK.format(values=f'"{data["title"]}", "{data["author"]}", "{data["release_date"]}"'))
-    
+    if isinstance(data, dict):
+        cursor.execute(ADD_BOOK.format(values=f'"{data["title"]}", "{data["author"]}", "{data["release_date"]}"'))
+    elif isinstance(data, list):
+        cursor.execute(
+            INSERT_MULTIPLE_INTO("Book", ["title", 'author', "release_date"], data)
+        )
+    else: 
+        return "", 400 
+
     connection.commit()
 
     cursor.close()
@@ -138,8 +145,15 @@ def post_client():
 
     data = request.json
 
-    cursor.execute(ADD_CLIENT.format(values=f'"{data["cpf"]}", "{data["name"]}", "{data["phone_number"]}"'))
-    
+    if isinstance(data, dict):
+        cursor.execute(ADD_CLIENT.format(values=f'"{data["cpf"]}", "{data["name"]}", "{data["phone_number"]}"'))
+    elif isinstance(data, list):
+        cursor.execute(
+            INSERT_MULTIPLE_INTO("Client", ["cpf", 'name', "phone_number"], data)
+        )
+    else: 
+        return "", 400 
+
     connection.commit()
 
     cursor.close()
@@ -153,9 +167,17 @@ def post_rent():
     cursor = connection.cursor() 
 
     data = request.json
+    if isinstance(data, dict):
+        cursor.execute(MAKE_RENT.format(cpf=data["cpf"], id_book = data["id_book"]))
+    elif isinstance(data, list):
+        data["id_client"] = data['cpf']
+        cursor.execute(
+            INSERT_MULTIPLE_INTO("Rent", ["id_client", 'id_book'], data)
+        )
+    else: 
+        return "", 400 
 
-    cursor.execute(MAKE_RENT.format(cpf=data["cpf"], id_book = data["id_book"]))
-    
+
     connection.commit()
 
     cursor.close()

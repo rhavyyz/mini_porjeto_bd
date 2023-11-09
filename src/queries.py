@@ -126,4 +126,21 @@ SEARCH_RENTS_BY_CPF = '''
 
 SELECT * FROM Rent WHERE id_client = {cpf};
 
-'''
+'''        
+
+def INSERT_MULTIPLE_INTO(table: str, columns: list[str], values: list[dict[str, any]]):
+    query = f"INSERT INTO {table} {*columns ,} values "
+    for value in values:
+        query += '( '
+        for column in columns:
+            if isinstance(value[column], str):
+                query +=  f'"{value[column]}" ,' 
+            else:
+                query +=  str(value[column]) + ' ,'
+        query = query[:-1] + ') ,'
+    query=  query[:-1] + ';'
+
+    print(query)
+
+    return query
+
