@@ -10,6 +10,9 @@ from src.queries import *
 from src.client import Client
 from src.book import Book
 
+connection = sqlite3.connect("./src/ismaylindo.db")
+cursor = connection.cursor() 
+
 app = Flask(__name__)
 
 # def main():
@@ -30,9 +33,6 @@ if need_set_up:
 
 @app.get("/book/title/<title>")
 def get_book_by_title(title):
-    connection = sqlite3.connect("./src/ismaylindo.db")
-    cursor = connection.cursor() 
-
     cursor.execute(SEARCH_BOOK_BY_TITLE.format(title=title)) 
 
     query_response = cursor.fetchall()
@@ -68,7 +68,7 @@ def get_client_by_name(name):
     cursor.close()
     connection.close()
     
-    return { "client" : query_response} , 200
+    return { "clients" : query_response} , 200
      
 @app.get("/client/cpf/<cpf>")
 def get_client_by_cpf(cpf):
@@ -82,7 +82,7 @@ def get_client_by_cpf(cpf):
     cursor.close()
     connection.close()
     
-    return { "client" : query_response} , 200
+    return { "clients" : query_response} , 200
      
 @app.get("/rent/id_book/<id_book>")
 def get_rent_by_id_book(id_book):
@@ -96,7 +96,7 @@ def get_rent_by_id_book(id_book):
     cursor.close()
     connection.close()
     
-    return { "rent" : query_response} , 200
+    return { "rents" : query_response} , 200
     
 @app.get("/rent/cpf/<cpf>")
 def get_rent_by_cpf(cpf):
@@ -112,7 +112,7 @@ def get_rent_by_cpf(cpf):
     cursor.close()
     connection.close()
 
-    return { "rent" : query_response} , 200
+    return { "rents" : query_response} , 200
 
 @app.post("/book/")
 def post_book():
