@@ -1,3 +1,4 @@
+# For linux users
 For the setup.sh file to run you should install
 
 	pip install virtualenv
@@ -6,14 +7,30 @@ And you also wants do run setup.sh as source
 
 	source ./setup.sh
 
+To run the applicaition just execute 
+
+	flask run
+
 To go out of python environment just type 
 
 	deactivate
 
+# For windows users
 if you are using windows then you need to follow those steps https://www.youtube.com/watch?v=4orYC5ARfn8
 
-There's also a PDF with the documentation below but with better appearance :) 
+Actually you really just need to install the requirements with
 
+ 	pip install -r requirements.txt
+
+It would be better to run it in a virtual environment but isn't really mandatory.
+
+To run the applicaition just execute 
+
+	flask run
+ 
+<aside>
+⚠ There's also a PDF named "Library_API_Documentation.pdf" with the documentation below but with better appearance :)
+</aside>
 
 # Library API Documentation
 
