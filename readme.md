@@ -1,3 +1,5 @@
+## Trabalho de banco de dados feito em dupla com https://github.com/aliciapaivaa
+
 # For linux users
 For the setup.sh file to run you should install
 
