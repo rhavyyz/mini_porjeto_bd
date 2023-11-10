@@ -136,7 +136,7 @@ def post_book():
     cursor.close()
     connection.close()
 
-    return "OK", 200
+    return "OK", 201
 
 @app.post("/client/")
 def post_client():
@@ -159,7 +159,7 @@ def post_client():
     cursor.close()
     connection.close()
 
-    return "OK", 200
+    return "OK", 201
 
 @app.post("/rent/")
 def post_rent():
@@ -183,14 +183,14 @@ def post_rent():
     cursor.close()
     connection.close()
 
-    return "OK", 200
+    return "OK", 201
 
-@app.delete("/book/<id>")
-def delete_book_with_id_book(id):
+@app.delete("/book/<id_book>")
+def delete_book_with_id_book(id_book):
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
-    cursor.execute(DELETE_BOOK.format(id=id))
+    cursor.execute(DELETE_BOOK.format(id=id_book))
     
     connection.commit()
 
@@ -200,7 +200,7 @@ def delete_book_with_id_book(id):
     return "OK", 200
 
 @app.delete("/client/<cpf>")
-def delete_book_with_cpf(cpf):
+def delete_client_with_cpf(cpf):
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
@@ -214,7 +214,7 @@ def delete_book_with_cpf(cpf):
     return "OK", 200
 
 @app.delete("/rent/<cpf>/<id_book>")
-def delete_book_with_rent(cpf, id_book):
+def delete_rent(cpf, id_book):
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
@@ -227,12 +227,14 @@ def delete_book_with_rent(cpf, id_book):
 
     return "OK", 200
 
-@app.put("/client/phone_number/<phone_number>")
-def delete_book_with_phone_number(phone_number):
+@app.put("/client/phone_number/")
+def update_phone_number():
     connection = sqlite3.connect("./src/ismaylindo.db")
     cursor = connection.cursor() 
 
-    cursor.execute(UPDATE_CLIENT.format(phone_number=phone_number))
+    data = request.json
+
+    cursor.execute(UPDATE_CLIENT.format(phone_number=data["phone_number"], cpf = data["cpf"]))
     
     connection.commit()
 

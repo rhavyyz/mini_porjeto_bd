@@ -86,7 +86,7 @@ DELETE FROM Rent WHERE id_client = {cpf} and id_book = {id_book};
 
 UPDATE_CLIENT = '''
 
-UPDATE Client set phone_number = {phone_number} WHERE id = {cpf};  
+UPDATE Client set phone_number = "{phone_number}" WHERE cpf = "{cpf}";  
 
 '''
 
