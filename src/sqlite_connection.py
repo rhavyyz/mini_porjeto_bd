@@ -8,14 +8,27 @@ class SqliteOperation:
         self.___cursor = self.___connection.cursor()
 
     def execute(self, command : str):
-        self.___cursor.execute(command)
+        try:
+            self.___cursor.execute(command)
+            return False
+        except sqlite3.IntegrityError as error:
+            return error.__str__()
+
+            
+
 
     def commit(self):
-        self.___connection.commit()
+        try:
+            self.___connection.commit()
+            return False
+        except sqlite3.IntegrityError as error:
+            return True
 
     def fetchall(self):
-        return self.___cursor.fetchall()
-
+        try:
+            return self.___cursor.fetchall()
+        except sqlite3.IntegrityError as error:
+            return []
 
     def __del__(self):
         self.___cursor.close()

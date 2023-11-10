@@ -76,9 +76,8 @@ def MAKE_RENT(cpf, id_book, cursor, max):
     n_books = cursor.fetchall()[0][0]
 
     if n_clients < max and n_books < 1:
-        cursor.execute(__INSET_RENT.format(id_book = id_book, cpf=cpf))
-        return True
-    
+        return cursor.execute(__INSET_RENT.format(id_book = id_book, cpf=cpf))
+        
     return False
 
 # def MAKE_RENT(cpf, id_book, cursor):
@@ -147,7 +146,7 @@ SELECT * FROM Client WHERE name LIKE "%{name}%";
 
 SEARCH_CLIENT_BY_CPF = '''
 
-SELECT * FROM Client WHERE cpf = {cpf};
+SELECT * FROM Client WHERE cpf = "{cpf}";
 
 '''
 
@@ -165,7 +164,7 @@ SELECT * FROM Rent WHERE id_book = {id_book};
 
 SEARCH_RENTS_BY_CPF = '''
 
-SELECT * FROM Rent WHERE id_client = {cpf};
+SELECT * FROM Rent WHERE id_client = "{cpf}";
 
 '''        
 
