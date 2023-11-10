@@ -1,16 +1,12 @@
+# all quearies are stored at src/queries.py
+# this file represents just a webapi to interact 
+# with the database
+
 import sqlite3
-
-from flask import Flask, request, jsonify
-# from
-
+from flask import Flask, request
 from src.sqlite_connection import SqliteOperation
-
 from os.path import exists
-
 from src.queries import *
-
-from src.client import Client
-from src.book import Book
 
 app = Flask(__name__)
 
@@ -30,6 +26,17 @@ if need_set_up:
     cursor.close()
     connection.close()
 
+def get_books():
+
+    cursor = SqliteOperation()
+
+    cursor.execute(GET_ALL_BOOKS) 
+
+    query_response = cursor.fetchall()
+
+    return { "books" : query_response} , 200
+
+
 @app.get("/book/title/<title>")
 def get_book_by_title(title):
 
@@ -46,12 +53,21 @@ def get_book_by_author(author):
 
     cursor = SqliteOperation()
 
-
     cursor.execute(SEARCH_BOOK_BY_AUTHOR.format(author=author)) 
 
     query_response = cursor.fetchall()
 
     return { "books" : query_response} , 200
+
+def get_clients():
+
+    cursor = SqliteOperation()
+
+    cursor.execute(GET_ALL_CLIENTS) 
+
+    query_response = cursor.fetchall()
+
+    return { "clients" : query_response} , 200
 
 @app.get("/client/name/<name>")
 def get_client_by_name(name):
@@ -77,6 +93,16 @@ def get_client_by_cpf(cpf):
     
     return { "clients" : query_response} , 200
      
+def get_rents():
+
+    cursor = SqliteOperation()
+
+    cursor.execute(GET_ALL_RENTS) 
+
+    query_response = cursor.fetchall()
+
+    return { "rents" : query_response} , 200
+
 @app.get("/rent/id_book/<id_book>")
 def get_rent_by_id_book(id_book):
 
@@ -99,8 +125,12 @@ def get_rent_by_cpf(cpf):
 
     return { "rents" : query_response} , 200
 
-@app.post("/book/")
-def post_book():
+@app.route("/book/", methods=['GET', 'POST'])
+def books():
+
+    if request.method == 'GET':
+        return get_books()
+
     cursor = SqliteOperation()
 
     data = request.json
@@ -118,8 +148,12 @@ def post_book():
 
     return "OK", 201
 
-@app.post("/client/")
-def post_client():
+@app.route("/client/", methods = ['GET', 'POST'])
+def clients():
+
+    if request.method == 'GET':
+        return get_clients()
+
     cursor = SqliteOperation()
 
     data = request.json
@@ -137,19 +171,24 @@ def post_client():
 
     return "OK", 201
 
-@app.post("/rent/")
-def post_rent():
+@app.route("/rent/", methods = ['GET', 'POST'])
+def rents():
+
+    if request.method == 'GET':
+        return get_rents()
 
     cursor = SqliteOperation()
 
     data = request.json
     if isinstance(data, dict):
-        cursor.execute(MAKE_RENT.format(cpf=data["cpf"], id_book = data["id_book"]))
+
+        MAKE_RENT(cursor=cursor , cpf=data["cpf"], id_book = data["id_book"], max = 4)
+
     elif isinstance(data, list):
-        data["id_client"] = data['cpf']
-        cursor.execute(
-            INSERT_MULTIPLE_INTO("Rent", ["id_client", 'id_book'], data)
-        )
+        pass
+        for sample in data:
+            MAKE_RENT(cursor=cursor , cpf=sample["cpf"], id_book = sample["id_book"], max = 4)
+
     else: 
         return "", 400 
 
