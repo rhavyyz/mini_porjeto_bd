@@ -10,9 +10,9 @@ To go out of python environment just type
 
 	deactivate
 
-
-
 if you are using windows then you need to follow those steps https://www.youtube.com/watch?v=4orYC5ARfn8
+
+There's also a PDF with the documentation below but with better appearance :) 
 
 
 # Library API Documentation
