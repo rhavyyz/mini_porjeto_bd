@@ -10,9 +10,6 @@ from src.queries import *
 from src.client import Client
 from src.book import Book
 
-connection = sqlite3.connect("./src/ismaylindo.db")
-cursor = connection.cursor() 
-
 app = Flask(__name__)
 
 # def main():
@@ -33,6 +30,9 @@ if need_set_up:
 
 @app.get("/book/title/<title>")
 def get_book_by_title(title):
+    connection = sqlite3.connect("./src/ismaylindo.db")
+    cursor = connection.cursor() 
+
     cursor.execute(SEARCH_BOOK_BY_TITLE.format(title=title)) 
 
     query_response = cursor.fetchall()
